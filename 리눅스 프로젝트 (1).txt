@@ -1,0 +1,27 @@
+sudo -i /*루트 사용자로 전환하기 위해서 비밀번호도 입력한다.*/
+
+docker search httpd /*httpd를 포함하는 도커 이미지를 검색한다.*/
+
+docker pull httpd /*docker hub로부터 httpd 최신 이미지를 다운로드 받는다*/
+
+docker run -d --name apache-web -p 8080:80 httpd /*apache-web이라는 이름의 도커 컨테이너를 백그라운드 모드로 httpd이미지를 띄워 생성 및 실행한다. 호스트(8080)와 컨테이너 내부(80)의 포트를 연결한다. 따라서 로컬호스트:8080으로 접속 시 컨테이너의 아파치 서버에 접속할 수 있다.*/
+
+docker ps /*컨테이너가 실행 중인지 확인한다.*/
+
+docker exec -it apache-web /bin/bash /*apache-web 컨테이너 내부로 bash쉘을 interactive, terminal 모드로 실행한다.*/
+
+apt-get update /*컨테이너 내부에 패키지 목록 최신으로 갱신해준다.*/
+
+apt-get install vim /*컨테이너 내부에 vim 편집기를 설치해준다.*/
+
+cd htdocs /*htdocs 안에 있는 index.html에 접근하기 위해서 htdocs파일로 이동한다. 이때 htdocs 안에 index.html이 존재하는 이유는 아파치 웹 서버가 웹 페이지 파일을 기본적으로 저장하는 디렉터리이기 때문이다.*/
+
+vim index.html /*index.html 파일을 vim 편집기로 수정하여 웹 페이지를 수정한다.*/
+
+exit /*리눅스 호스트 터미널로 다시 나온다.*/
+
+ufw enable /*ufw 방화벽을 활성화 한다. 없다면 apt-get install ufw, 설치한다.*/
+
+ufw allow 8080 /*8080번 포트를 열어준다.*/
+
+ufw status /*방화벽 상태를 확인한다.*/
